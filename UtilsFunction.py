@@ -9,6 +9,7 @@ receive_step_time = 0.2  # 接收消息的重读时间间隔，单位（秒）
 
 check_state_step_time = 0.2  # 检查终端状态的时间间隔，单位（秒）
 
+
 class Util:
     @staticmethod
     def __check_end(in_str):
@@ -34,7 +35,7 @@ class Util:
             raise Exception("param type is error")
         res_str = ''
         while True:
-            res_str += str(channel.recv(1024), encoding='utf-8')
+            res_str += str(channel.recv(buffer_size), encoding='utf-8')
             if Util.__check_end(res_str):
                 return res_str
             time.sleep(receive_step_time)

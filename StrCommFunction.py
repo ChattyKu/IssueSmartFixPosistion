@@ -1,3 +1,4 @@
+import os
 SYMBOLS = {'}': '{', ']': '[', ')': '(', '>': '<'}
 START_SYMBOLS = ['{', '[', '(', '<']
 # 存储左括号和右括号
@@ -18,7 +19,7 @@ def find_between_follow_flag(des_str, flag_str):
     """
     res = ''
     begin = 0
-    while (True):
+    while True:
         index_key_point = des_str.find(flag_str, begin)
         key_flag = dict()
         if index_key_point == -1:
@@ -61,6 +62,15 @@ def find_between_two_flag(des_str, flag_beg, flag_end):
     return des_str[beg_index + flag_beg.__len__():end_index]
 
 
+def get_path_and_name(path):
+    """
+    根据路径名称获得文件名称和路径
+    :param path: 全路径
+    :return: 路径，文件名
+    """
+    return os.path.dirname(path), os.path.basename(path)
+
+
 if __name__ == '__main__':
     des = """
     
@@ -68,7 +78,8 @@ if __name__ == '__main__':
 
 
 
-if(window.jsonFlagBegin) {jsonFlagBegin({"ip":"202.101.172.35","pro":"浙江省","proCode":"330000","city":"杭州市","cityCode":"330100","region":"","regionCode":"0","addr":"浙江省杭州市 电信","regionNames":"","err":""});}
+if(window.jsonFlagBegin) {jsonFlagBegin({"ip":"202.101.172.35","pro":"浙江省","proCode":"330000","city":"杭州市",
+"cityCode":"330100","region":"","regionCode":"0","addr":"浙江省杭州市 电信","regionNames":"","err":""});}
 
 
 
@@ -76,7 +87,9 @@ if(window.jsonFlagBegin) {jsonFlagBegin({"ip":"202.101.172.35","pro":"浙江省"
     flag = 'jsonFlagBegin'
     res = find_between_follow_flag(des, flag)
 
-    des = '2019-07-06 13:17:46.686101 [INFO] [DHTMessageDispatcherImpl.cc:79] Message sent: dht query find_node TransactionID=8773788e Remote:195.154.181.225(51272), id=a026363823a6275c34841d5230b1f7a23eb80fe3, v=A2%00%03, target'
+    des = '2019-07-06 13:17:46.686101 [INFO] [DHTMessageDispatcherImpl.cc:79] Message sent: ' \
+          'dht query find_node TransactionID=8773788e Remote:195.154.181.225(51272), ' \
+          'id=a026363823a6275c34841d5230b1f7a23eb80fe3, v=A2%00%03, target'
     b_f = 'Remote:'
     e_f = ','
     res = find_between_two_flag(des, b_f, e_f)
